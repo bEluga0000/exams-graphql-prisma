@@ -1,0 +1,26 @@
+input CreateStudentInput {
+  name: String!
+  class: Int!
+}
+input CreateTeacherInput{
+  name:String!
+  email:String!
+}
+type Teacher{
+  id:ID!
+  email:String!
+  name:String!
+}
+type Student {
+  id: ID!
+  class: Int!
+  name: String!
+}
+type Mutation {
+  createStudent(input: CreateStudentInput): Student!
+  createTeacher(input:CreateTeacherInput):Teacher!
+}
+type Query {
+  getStudent(id: ID!): Student
+  getTeacher(id:ID!):Teacher
+}
