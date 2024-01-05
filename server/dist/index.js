@@ -75,6 +75,31 @@ const root = {
             console.log(e);
         }
     }),
+    getPaper: ({ std }, req) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const paper = yield (0, get_1.getPaper)(std);
+            if (paper) {
+                return { id: paper.paper.id, class: paper.paper.class, teacherId: paper.paper.teacherId, questions: paper.question };
+            }
+            else {
+                throw new Error("THere is something went wrong");
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }),
+    getSubmitAnswer: ({ id, studentId }, req) => __awaiter(void 0, void 0, void 0, function* () {
+        try {
+            const submittedPapers = yield (0, get_1.getSubmittedPaper)(id, studentId);
+            if ((submittedPapers === null || submittedPapers === void 0 ? void 0 : submittedPapers.submittedPaper) && submittedPapers.answers) {
+                return { id: submittedPapers.submittedPaper.id, studentId: submittedPapers.submittedPaper.studentId, papersId: submittedPapers.submittedPaper.papersId, submittedAnswers: submittedPapers.answers };
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }),
     // todo need to check how we can send all the data like all the users at  time
     // getAllStudents:async(req:any)=>{
     //     try{
@@ -118,6 +143,37 @@ const root = {
             }
             else {
                 throw new Error("THere is an error in creating the user");
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }),
+    createPaper: ({ input }) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("i am hitting");
+        try {
+            const { paper, question } = yield (0, create_1.createPaper)(input.questions, input.teacherId, input.class);
+            if (paper && question) {
+                return { id: paper.id, teacherId: paper.teacherId, class: paper.class, questions: question };
+            }
+            else {
+                console.log("Either paper or question is missing");
+            }
+        }
+        catch (e) {
+            console.log(e);
+        }
+    }),
+    submitPaper: ({ input }) => __awaiter(void 0, void 0, void 0, function* () {
+        console.log("i am hitting");
+        try {
+            const { submittedAnswer, answers } = yield (0, create_1.submitPaper)(input.answers, input.studentId, input.paperId);
+            if (submittedAnswer && answers) {
+                console.log(submittedAnswer, answers);
+                return { id: submittedAnswer.id, studentId: submittedAnswer.studentId, papersId: submittedAnswer.papersId };
+            }
+            else {
+                console.log("something wernt wrong");
             }
         }
         catch (e) {

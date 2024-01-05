@@ -30,6 +30,7 @@ model Papers{
   teacher Teacher @relation(fields: [teacherId],references: [id])
   teacherId String
   questions Question[]
+  submittedPapers SubmittedPapers[]
 }
 model Question{
   id Int @id @default(autoincrement())
@@ -38,10 +39,21 @@ model Question{
   answer String
   paperId Int
   paper Papers @relation(fields: [paperId],references: [id])
-
+  submitedAns SubmittedAns[]
+}
+model SubmittedAns{
+  id Int @id @default(autoincrement())
+  answer String
+  questions Question @relation(fields: [questionId],references: [id])
+  questionId Int 
+  submittedPaperId String
+  submittedpaper SubmittedPapers @relation(fields: [submittedPaperId],references: [id])
 }
 model SubmittedPapers{
   id String @id @default(cuid())
   student Student @relation(fields: [studentId],references: [id])
   studentId String
+  paper Papers @relation(fields: [papersId],references: [id])
+  papersId Int
+  submittedAns SubmittedAns[]
 }

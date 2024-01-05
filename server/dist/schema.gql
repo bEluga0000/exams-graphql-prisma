@@ -2,25 +2,71 @@ input CreateStudentInput {
   name: String!
   class: Int!
 }
-input CreateTeacherInput{
-  name:String!
-  email:String!
+input CreateTeacherInput {
+  name: String!
+  email: String!
 }
-type Teacher{
-  id:ID!
-  email:String!
-  name:String!
+input CreatePaperInput {
+  class: Int!
+  teacherId: String!
+  questions: [QuestionInput]!
+}
+input QuestionInput {
+  question: String!
+  answer: String!
+}
+input SubmitPaperInput {
+  studentId: String!
+  paperId: Int!
+  answers: [SubAnswerInput]!
+}
+input SubAnswerInput {
+  answer: String!
+  questionId: Int!
+}
+type AnswerPaper {
+  id: ID!
+  studentId: String
+  papersId: Int!
+  # submittedAnswers: [SubmittedAnswer!]!
+}
+# type SubmittedAnswer {
+#   id: ID!
+#   answer: String!
+#   questionId: Int!
+#   SubmitedPaperId: String!
+# }
+type Teacher {
+  id: ID!
+  email: String!
+  name: String!
 }
 type Student {
   id: ID!
   class: Int!
   name: String!
 }
+type Question {
+  id: ID!
+  questionNo: Int!
+  question: String!
+  answer: String!
+}
+type Paper {
+  id: ID!
+  class: Int!
+  teacherId: String!
+  questions: [Question!]!
+}
 type Mutation {
   createStudent(input: CreateStudentInput): Student!
-  createTeacher(input:CreateTeacherInput):Teacher!
+  createTeacher(input: CreateTeacherInput): Teacher!
+  createPaper(input: CreatePaperInput): Paper!
+  submitPaper(input: SubmitPaperInput): AnswerPaper!
 }
 type Query {
+  getPaper(std: Int!): Paper
   getStudent(id: ID!): Student
-  getTeacher(id:ID!):Teacher
+  getTeacher(id: ID!): Teacher
+  getSubmitAnswer(id: ID!, studentId: String): AnswerPaper
 }

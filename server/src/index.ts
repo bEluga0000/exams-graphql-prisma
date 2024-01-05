@@ -1,10 +1,11 @@
+import { PrismaClient } from "@prisma/client"
 import express from "express"
 import { graphqlHTTP } from "express-graphql"
 import { buildSchema } from "graphql"
 import * as path from "path"
-import { createStudent, createTeacher } from "./querys/create"
-import { getAllStudents, getStudentById, getTeacherById } from "./querys/get"
-import { StudentProps,TeacherProps } from "./types/studentTypes"
+import { createPaper, createStudent, createTeacher, submitPaper } from "./querys/create"
+import { getAllStudents, getPaper, getStudentById, getSubmittedPaper, getTeacherById } from "./querys/get"
+import { PaperProps, StudentProps,SubmitAnswerProps,TeacherProps } from "./types/studentTypes"
 const fs = require("fs")
 const schemaString = fs.readFileSync(path.join(__dirname, './schema.gql'), 'utf-8');
 const schema = buildSchema(schemaString)
@@ -41,6 +42,36 @@ const root = {
             else
             {
                 throw new Error("There is a error in getting the teacher")
+            }
+        }
+        catch(e)
+        {
+            console.log(e)
+        }
+    },
+    getPaper:async({std}:{std:number},req:any)=>{
+        try{
+            const paper = await getPaper(std)
+            if(paper)
+            { 
+                return { id: paper.paper.id, class: paper.paper.class, teacherId: paper.paper.teacherId,questions:paper.question}
+            }
+            else
+            {
+                throw new Error("THere is something went wrong")
+            }
+        }
+        catch(e)
+        {
+            console.log(e)
+        }
+    },
+    getSubmitAnswer:async({id,studentId}:{id:string,studentId:string},req:any)=>{
+        try{
+            const submittedPapers = await getSubmittedPaper(id,studentId)
+            if(submittedPapers?.submittedPaper && submittedPapers.answers )
+            {
+                return { id: submittedPapers.submittedPaper.id, studentId: submittedPapers.submittedPaper.studentId, papersId: submittedPapers.submittedPaper.papersId, submittedAnswers:submittedPapers.answers}
             }
         }
         catch(e)
@@ -95,6 +126,43 @@ const root = {
             else
             {
                 throw new Error ("THere is an error in creating the user")
+            }
+        }
+        catch(e)
+        {
+            console.log(e)
+        }
+    },
+    createPaper: async({ input }: { input: PaperProps})=>{
+        console.log("i am hitting")
+        try{
+            const {paper,question} = await createPaper(input.questions,input.teacherId,input.class)
+            if(paper && question)
+            {
+                return { id: paper.id, teacherId: paper.teacherId, class: paper.class, questions:question}
+            }
+            else
+            {
+                console.log("Either paper or question is missing");
+            }
+        }
+        catch(e)
+        {
+            console.log(e)
+        }
+    },
+    submitPaper: async({ input }: { input: SubmitAnswerProps})=>{
+        console.log("i am hitting")
+        try{
+            const {submittedAnswer,answers} = await submitPaper(input.answers,input.studentId,input.paperId)
+            if(submittedAnswer && answers)
+            {
+                console.log(submittedAnswer,answers)
+                return { id: submittedAnswer.id, studentId: submittedAnswer.studentId, papersId: submittedAnswer.papersId}
+            }
+            else
+            {
+                console.log("something wernt wrong")
             }
         }
         catch(e)

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createTeacher = exports.createStudent = void 0;
+exports.submitPaper = exports.createPaper = exports.createTeacher = exports.createStudent = void 0;
 const client_1 = require("@prisma/client");
 const prisma = new client_1.PrismaClient();
 const createStudent = (name, std) => __awaiter(void 0, void 0, void 0, function* () {
@@ -43,4 +43,65 @@ const createTeacher = (name, email) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.createTeacher = createTeacher;
+const createPaper = (questionData, teacherId, std) => __awaiter(void 0, void 0, void 0, function* () {
+    const paper = yield prisma.papers.create({
+        data: {
+            class: std,
+            teacherId,
+            questions: {
+                createMany: {
+                    data: questionData.map((question, index) => ({
+                        questionNo: index + 1,
+                        question: question.question,
+                        answer: question.answer
+                    }))
+                }
+            }
+        },
+        include: {
+            questions: true
+        }
+    });
+    return { paper, question: paper.questions };
+});
+exports.createPaper = createPaper;
+const ansData = [{
+        answer: "THere can only be one winner and thats me",
+        questionId: 1
+    }, {
+        answer: "THere can only be one winner and thats me",
+        questionId: 2
+    }];
+const submitPaper = (ansData, studentId, papersId) => __awaiter(void 0, void 0, void 0, function* () {
+    const submittedAnswer = yield prisma.submittedPapers.create({
+        data: {
+            studentId,
+            papersId,
+            submittedAns: {
+                createMany: {
+                    data: ansData.map((ans, index) => ({
+                        answer: ans.answer,
+                        questionId: ans.questionId
+                    }))
+                }
+            }
+        },
+        include: {
+            submittedAns: true
+        }
+    });
+    console.log(submittedAnswer);
+    return { submittedAnswer, answers: submittedAnswer.submittedAns };
+});
+exports.submitPaper = submitPaper;
+// submitPaper(ansData,"clqv5z18a0000r2i8qef6kfn1",1)
+// const questionsData = [{
+//     question: "Whats is your name",
+//     answer: "this is the answer"
+// },
+// {
+//     question: "Hello name",
+//     answer: "There can only be one winner"
+// }]
+// createPaper(questionsData)
 // createStudent("shreyas",3)
