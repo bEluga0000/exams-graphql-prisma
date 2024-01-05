@@ -90,7 +90,7 @@ const submitPaper = (ansData, studentId, papersId) => __awaiter(void 0, void 0, 
             submittedAns: true
         }
     });
-    console.log(submittedAnswer);
+    // console.log(submittedAnswer)
     return { submittedAnswer, answers: submittedAnswer.submittedAns };
 });
 exports.submitPaper = submitPaper;

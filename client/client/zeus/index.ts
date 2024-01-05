@@ -853,6 +853,29 @@ export type ValueTypes = {
 	question: string | Variable<any, string>,
 	answer: string | Variable<any, string>
 };
+	["SubmitPaperInput"]: {
+	studentId: string | Variable<any, string>,
+	paperId: number | Variable<any, string>,
+	answers: Array<ValueTypes["SubAnswerInput"] | undefined | null> | Variable<any, string>
+};
+	["SubAnswerInput"]: {
+	answer: string | Variable<any, string>,
+	questionId: number | Variable<any, string>
+};
+	["AnswerPaper"]: AliasType<{
+	id?:boolean | `@${string}`,
+	studentId?:boolean | `@${string}`,
+	papersId?:boolean | `@${string}`,
+	submittedAnswers?:ValueTypes["SubmittedAnswer"],
+		__typename?: boolean | `@${string}`
+}>;
+	["SubmittedAnswer"]: AliasType<{
+	id?:boolean | `@${string}`,
+	answer?:boolean | `@${string}`,
+	questionId?:boolean | `@${string}`,
+	SubmitedPaperId?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Teacher"]: AliasType<{
 	id?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
@@ -883,12 +906,14 @@ export type ValueTypes = {
 createStudent?: [{	input?: ValueTypes["CreateStudentInput"] | undefined | null | Variable<any, string>},ValueTypes["Student"]],
 createTeacher?: [{	input?: ValueTypes["CreateTeacherInput"] | undefined | null | Variable<any, string>},ValueTypes["Teacher"]],
 createPaper?: [{	input?: ValueTypes["CreatePaperInput"] | undefined | null | Variable<any, string>},ValueTypes["Paper"]],
+submitPaper?: [{	input?: ValueTypes["SubmitPaperInput"] | undefined | null | Variable<any, string>},ValueTypes["AnswerPaper"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Query"]: AliasType<{
 getPaper?: [{	std: number | Variable<any, string>},ValueTypes["Paper"]],
 getStudent?: [{	id: string | Variable<any, string>},ValueTypes["Student"]],
 getTeacher?: [{	id: string | Variable<any, string>},ValueTypes["Teacher"]],
+getSubmitAnswer?: [{	id: string | Variable<any, string>,	studentId?: string | undefined | null | Variable<any, string>},ValueTypes["AnswerPaper"]],
 		__typename?: boolean | `@${string}`
 }>
   }
@@ -911,6 +936,29 @@ export type ResolverInputTypes = {
 	question: string,
 	answer: string
 };
+	["SubmitPaperInput"]: {
+	studentId: string,
+	paperId: number,
+	answers: Array<ResolverInputTypes["SubAnswerInput"] | undefined | null>
+};
+	["SubAnswerInput"]: {
+	answer: string,
+	questionId: number
+};
+	["AnswerPaper"]: AliasType<{
+	id?:boolean | `@${string}`,
+	studentId?:boolean | `@${string}`,
+	papersId?:boolean | `@${string}`,
+	submittedAnswers?:ResolverInputTypes["SubmittedAnswer"],
+		__typename?: boolean | `@${string}`
+}>;
+	["SubmittedAnswer"]: AliasType<{
+	id?:boolean | `@${string}`,
+	answer?:boolean | `@${string}`,
+	questionId?:boolean | `@${string}`,
+	SubmitedPaperId?:boolean | `@${string}`,
+		__typename?: boolean | `@${string}`
+}>;
 	["Teacher"]: AliasType<{
 	id?:boolean | `@${string}`,
 	email?:boolean | `@${string}`,
@@ -941,12 +989,14 @@ export type ResolverInputTypes = {
 createStudent?: [{	input?: ResolverInputTypes["CreateStudentInput"] | undefined | null},ResolverInputTypes["Student"]],
 createTeacher?: [{	input?: ResolverInputTypes["CreateTeacherInput"] | undefined | null},ResolverInputTypes["Teacher"]],
 createPaper?: [{	input?: ResolverInputTypes["CreatePaperInput"] | undefined | null},ResolverInputTypes["Paper"]],
+submitPaper?: [{	input?: ResolverInputTypes["SubmitPaperInput"] | undefined | null},ResolverInputTypes["AnswerPaper"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["Query"]: AliasType<{
 getPaper?: [{	std: number},ResolverInputTypes["Paper"]],
 getStudent?: [{	id: string},ResolverInputTypes["Student"]],
 getTeacher?: [{	id: string},ResolverInputTypes["Teacher"]],
+getSubmitAnswer?: [{	id: string,	studentId?: string | undefined | null},ResolverInputTypes["AnswerPaper"]],
 		__typename?: boolean | `@${string}`
 }>;
 	["schema"]: AliasType<{
@@ -974,6 +1024,27 @@ export type ModelTypes = {
 	question: string,
 	answer: string
 };
+	["SubmitPaperInput"]: {
+	studentId: string,
+	paperId: number,
+	answers: Array<ModelTypes["SubAnswerInput"] | undefined>
+};
+	["SubAnswerInput"]: {
+	answer: string,
+	questionId: number
+};
+	["AnswerPaper"]: {
+		id: string,
+	studentId?: string | undefined,
+	papersId: number,
+	submittedAnswers: Array<ModelTypes["SubmittedAnswer"]>
+};
+	["SubmittedAnswer"]: {
+		id: string,
+	answer: string,
+	questionId: number,
+	SubmitedPaperId: string
+};
 	["Teacher"]: {
 		id: string,
 	email: string,
@@ -999,12 +1070,14 @@ export type ModelTypes = {
 	["Mutation"]: {
 		createStudent: ModelTypes["Student"],
 	createTeacher: ModelTypes["Teacher"],
-	createPaper: ModelTypes["Paper"]
+	createPaper: ModelTypes["Paper"],
+	submitPaper: ModelTypes["AnswerPaper"]
 };
 	["Query"]: {
 		getPaper?: ModelTypes["Paper"] | undefined,
 	getStudent?: ModelTypes["Student"] | undefined,
-	getTeacher?: ModelTypes["Teacher"] | undefined
+	getTeacher?: ModelTypes["Teacher"] | undefined,
+	getSubmitAnswer?: ModelTypes["AnswerPaper"] | undefined
 };
 	["schema"]: {
 	query?: ModelTypes["Query"] | undefined,
@@ -1029,6 +1102,29 @@ export type GraphQLTypes = {
 	["QuestionInput"]: {
 		question: string,
 	answer: string
+};
+	["SubmitPaperInput"]: {
+		studentId: string,
+	paperId: number,
+	answers: Array<GraphQLTypes["SubAnswerInput"] | undefined>
+};
+	["SubAnswerInput"]: {
+		answer: string,
+	questionId: number
+};
+	["AnswerPaper"]: {
+	__typename: "AnswerPaper",
+	id: string,
+	studentId?: string | undefined,
+	papersId: number,
+	submittedAnswers: Array<GraphQLTypes["SubmittedAnswer"]>
+};
+	["SubmittedAnswer"]: {
+	__typename: "SubmittedAnswer",
+	id: string,
+	answer: string,
+	questionId: number,
+	SubmitedPaperId: string
 };
 	["Teacher"]: {
 	__typename: "Teacher",
@@ -1060,13 +1156,15 @@ export type GraphQLTypes = {
 	__typename: "Mutation",
 	createStudent: GraphQLTypes["Student"],
 	createTeacher: GraphQLTypes["Teacher"],
-	createPaper: GraphQLTypes["Paper"]
+	createPaper: GraphQLTypes["Paper"],
+	submitPaper: GraphQLTypes["AnswerPaper"]
 };
 	["Query"]: {
 	__typename: "Query",
 	getPaper?: GraphQLTypes["Paper"] | undefined,
 	getStudent?: GraphQLTypes["Student"] | undefined,
-	getTeacher?: GraphQLTypes["Teacher"] | undefined
+	getTeacher?: GraphQLTypes["Teacher"] | undefined,
+	getSubmitAnswer?: GraphQLTypes["AnswerPaper"] | undefined
 }
     }
 
@@ -1076,4 +1174,6 @@ type ZEUS_VARIABLES = {
 	["CreateTeacherInput"]: ValueTypes["CreateTeacherInput"];
 	["CreatePaperInput"]: ValueTypes["CreatePaperInput"];
 	["QuestionInput"]: ValueTypes["QuestionInput"];
+	["SubmitPaperInput"]: ValueTypes["SubmitPaperInput"];
+	["SubAnswerInput"]: ValueTypes["SubAnswerInput"];
 }

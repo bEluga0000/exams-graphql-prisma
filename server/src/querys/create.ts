@@ -56,13 +56,13 @@ export const createPaper = async (questionData:QuestionDataProps[],teacherId:str
     })
     return {paper,question:(paper as any).questions}
 }
-const ansData: AnsDataProps[] = [{
-    answer: "THere can only be one winner and thats me",
-    questionId: 1
-}, {
-    answer: "THere can only be one winner and thats me",
-    questionId: 2
-}]
+// const ansData: AnsDataProps[] = [{
+//     answer: "THere can only be one winner and thats me",
+//     questionId: 1
+// }, {
+//     answer: "THere can only be one winner and thats me",
+//     questionId: 2
+// }]
 export const submitPaper = async(ansData:AnsDataProps[],studentId:string,papersId:number)=>{
     const submittedAnswer = await prisma.submittedPapers.create({
         data:{
@@ -81,7 +81,7 @@ export const submitPaper = async(ansData:AnsDataProps[],studentId:string,papersI
             submittedAns:true
         }
     })
-    console.log(submittedAnswer)
+    // console.log(submittedAnswer)
     return { submittedAnswer, answers: (submittedAnswer as any).submittedAns}
 }
 

@@ -28,14 +28,14 @@ type AnswerPaper {
   id: ID!
   studentId: String
   papersId: Int!
-  # submittedAnswers: [SubmittedAnswer!]!
+  submittedAnswers: [SubmittedAnswer!]!
 }
-# type SubmittedAnswer {
-#   id: ID!
-#   answer: String!
-#   questionId: Int!
-#   SubmitedPaperId: String!
-# }
+type SubmittedAnswer {
+  id: ID!
+  answer: String!
+  questionId: Int!
+  SubmitedPaperId: String!
+}
 type Teacher {
   id: ID!
   email: String!

@@ -157,7 +157,7 @@ const root = {
             const {submittedAnswer,answers} = await submitPaper(input.answers,input.studentId,input.paperId)
             if(submittedAnswer && answers)
             {
-                console.log(submittedAnswer,answers)
+                console.log(submittedAnswer)
                 return { id: submittedAnswer.id, studentId: submittedAnswer.studentId, papersId: submittedAnswer.papersId}
             }
             else

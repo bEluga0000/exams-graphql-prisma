@@ -169,7 +169,7 @@ const root = {
         try {
             const { submittedAnswer, answers } = yield (0, create_1.submitPaper)(input.answers, input.studentId, input.paperId);
             if (submittedAnswer && answers) {
-                console.log(submittedAnswer, answers);
+                console.log(submittedAnswer);
                 return { id: submittedAnswer.id, studentId: submittedAnswer.studentId, papersId: submittedAnswer.papersId };
             }
             else {

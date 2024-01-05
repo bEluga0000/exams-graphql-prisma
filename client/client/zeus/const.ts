@@ -13,6 +13,12 @@ export const AllTypesProps: Record<string,any> = {
 	QuestionInput:{
 
 	},
+	SubmitPaperInput:{
+		answers:"SubAnswerInput"
+	},
+	SubAnswerInput:{
+
+	},
 	Mutation:{
 		createStudent:{
 			input:"CreateStudentInput"
@@ -22,6 +28,9 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		createPaper:{
 			input:"CreatePaperInput"
+		},
+		submitPaper:{
+			input:"SubmitPaperInput"
 		}
 	},
 	Query:{
@@ -33,11 +42,26 @@ export const AllTypesProps: Record<string,any> = {
 		},
 		getTeacher:{
 
+		},
+		getSubmitAnswer:{
+
 		}
 	}
 }
 
 export const ReturnTypes: Record<string,any> = {
+	AnswerPaper:{
+		id:"ID",
+		studentId:"String",
+		papersId:"Int",
+		submittedAnswers:"SubmittedAnswer"
+	},
+	SubmittedAnswer:{
+		id:"ID",
+		answer:"String",
+		questionId:"Int",
+		SubmitedPaperId:"String"
+	},
 	Teacher:{
 		id:"ID",
 		email:"String",
@@ -63,12 +87,14 @@ export const ReturnTypes: Record<string,any> = {
 	Mutation:{
 		createStudent:"Student",
 		createTeacher:"Teacher",
-		createPaper:"Paper"
+		createPaper:"Paper",
+		submitPaper:"AnswerPaper"
 	},
 	Query:{
 		getPaper:"Paper",
 		getStudent:"Student",
-		getTeacher:"Teacher"
+		getTeacher:"Teacher",
+		getSubmitAnswer:"AnswerPaper"
 	}
 }
 

@@ -9,6 +9,10 @@ exports.AllTypesProps = {
         questions: "QuestionInput"
     },
     QuestionInput: {},
+    SubmitPaperInput: {
+        answers: "SubAnswerInput"
+    },
+    SubAnswerInput: {},
     Mutation: {
         createStudent: {
             input: "CreateStudentInput"
@@ -18,15 +22,31 @@ exports.AllTypesProps = {
         },
         createPaper: {
             input: "CreatePaperInput"
+        },
+        submitPaper: {
+            input: "SubmitPaperInput"
         }
     },
     Query: {
         getPaper: {},
         getStudent: {},
-        getTeacher: {}
+        getTeacher: {},
+        getSubmitAnswer: {}
     }
 };
 exports.ReturnTypes = {
+    AnswerPaper: {
+        id: "ID",
+        studentId: "String",
+        papersId: "Int",
+        submittedAnswers: "SubmittedAnswer"
+    },
+    SubmittedAnswer: {
+        id: "ID",
+        answer: "String",
+        questionId: "Int",
+        SubmitedPaperId: "String"
+    },
     Teacher: {
         id: "ID",
         email: "String",
@@ -52,12 +72,14 @@ exports.ReturnTypes = {
     Mutation: {
         createStudent: "Student",
         createTeacher: "Teacher",
-        createPaper: "Paper"
+        createPaper: "Paper",
+        submitPaper: "AnswerPaper"
     },
     Query: {
         getPaper: "Paper",
         getStudent: "Student",
-        getTeacher: "Teacher"
+        getTeacher: "Teacher",
+        getSubmitAnswer: "AnswerPaper"
     }
 };
 exports.Ops = {
